@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zoom_clone/resources/auth_methods.dart';
+import 'package:zoom_clone/screens/historyMeetingScreen.dart';
+import 'package:zoom_clone/screens/meetingScreen.dart';
 import 'package:zoom_clone/utils/colors.dart';
+import 'package:zoom_clone/widgets/customButton.dart';
 import 'package:zoom_clone/widgets/home_meeting_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,49 +21,22 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  List<Widget> pages = [
+    MeetingScreen(),
+    const HistoryMeetingScreen(),
+    const Text("Contacts"),
+    CustomButton(buttonName: "Logout", onPressed: () => AuthMethods().signOut())
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
         elevation: 0,
-        title: Text("Meet & Chat"),
+        title: const Text("Meet & Chat"),
         centerTitle: true,
       ),
-      body: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            HomeMeetingButton(
-              onTappedPressed: () {},
-              text: "New Meeting",
-              iconName: Icons.videocam,
-            ),
-            HomeMeetingButton(
-              onTappedPressed: () {},
-              text: "join Meeting",
-              iconName: Icons.add_box_rounded,
-            ),
-            HomeMeetingButton(
-              onTappedPressed: () {},
-              text: "Schedule ",
-              iconName: Icons.calendar_today,
-            ),
-            HomeMeetingButton(
-              onTappedPressed: () {},
-              text: "Share Screen",
-              iconName: Icons.arrow_upward,
-            )
-          ],
-        ),
-        const Expanded(
-            child: Center(
-          child: Text(
-            "Create/Join Metting with just click!",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ))
-      ]),
+      body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
           backgroundColor: footerColor,
           selectedItemColor: Colors.white,
